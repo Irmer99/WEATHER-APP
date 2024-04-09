@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import './css/app.css'
-
+// vite does not need to import react
 function App() {
-  const [city, setCity] = useState('London');
+  const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
 
@@ -46,7 +46,7 @@ function handleDisplayWeather({ weather }) {
 
      <div className='display-tab'>
       <h2>{weather.location.name}</h2>
-      <img src={weather.current.icon} alt="weather icon"  />
+      <img src={weather.current.icon} alt="weather icon" />
       <p>Temperature: {weather.current.temp_c}°C</p>  
       <p>Humidity: {weather.humidity}</p>
       <p>Wind Speed: {weather.wind_kph} kph</p>
