@@ -46,7 +46,7 @@ function handleDisplayWeather({ weather }) {
 
      <div className='display-tab'>
       <h2>{weather.location.name}</h2>
-      <img src={weather.current.icon} alt="weather icon" />
+      <img src={weather.current.condition.icon} alt="weather icon" />
       <p>Temperature: {weather.current.temp_c}°C</p>  
       <p>Humidity: {weather.humidity}</p>
       <p>Wind Speed: {weather.wind_kph} kph</p>
