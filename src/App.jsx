@@ -44,13 +44,18 @@ function handleDisplayWeather({ weather }) {
       <input type="search" value={city} id="search-id"  placeholder='search a city' onChange={(e)=>{setCity(e.target.value)}}/>
       <button onClick={handleDisplayWeather}> Search</button>
 
-     <div className='display-tab'>
+      {error ? (
+        <p>Error fetching Weather Data: {error.message}</p>
+      ) : city.length === 0 ? (
+        <p>Loading...</p>
+      ) :(<div className='display-tab'>
       <h2>{weather.location.name}</h2>
       <img src={weather.current.condition.icon} alt="weather icon" />
       <p>Temperature: {weather.current.temp_c}°C</p>  
       <p>Humidity: {weather.current.humidity}</p>
       <p>Wind Speed: {weather.current.wind_kph} kph</p>
-    </div>
+    </div>)}
+
     </div>
   )
 }
