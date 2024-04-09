@@ -48,8 +48,8 @@ function handleDisplayWeather({ weather }) {
       <h2>{weather.location.name}</h2>
       <img src={weather.current.condition.icon} alt="weather icon" />
       <p>Temperature: {weather.current.temp_c}°C</p>  
-      <p>Humidity: {weather.humidity}</p>
-      <p>Wind Speed: {weather.wind_kph} kph</p>
+      <p>Humidity: {weather.current.humidity}</p>
+      <p>Wind Speed: {weather.current.wind_kph} kph</p>
     </div>
     </div>
   )
