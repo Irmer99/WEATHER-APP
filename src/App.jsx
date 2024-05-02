@@ -1,65 +1,85 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import './css/app.css'
 // vite does not need to import react
 function App() {
   const [city, setCity] = useState('');
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState("");
   const [error, setError] = useState(null);
 
+  const cityInput = document.querySelector('#search-id');
+
+  //button event handler
+  function handleClick(){
+    fetchData({city})
+  }
+
   
-  useEffect(() =>{
-      const fetchData = async () => {
+    const fetchData = async (cityvalue) => {
+        setCity(cityInput.value)
         // fetching the api data
         try {
-          const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=d533f1523cea494a9dd81558240904&q=London&aqi=yes`);
+          const response = await fetch(`${import.meta.env.VITE_URL}?key=${import.meta.env.VITE_API_KEY}&q=${cityvalue}&aqi=yes`);
           // parsing it to json
           const data = await response.json();
           // the weather data is then stored within the setweather variable as a JSON Object.
           setWeather(data);
         } catch (error) {
-          setError(error.message);
+          setError("Error");
         }
-      };
+      }
 
-      fetchData()
-    }, [city, weather])
 // I then made a search bar. when the button is clicked, displays the weather information
 // to display weather information button click, i needed an event handle function
-function handleDisplayWeather({ weather }) {
 
-  return (
-    <div>
-      <h2>{weather.location.name}</h2>
-      <img src={weather.current.icon} alt="weather icon"  />
-      <p>Temperature: {weather.current.temp_c}°C</p>  
-      <p>Humidity: {weather.humidity}</p>
-      <p>Wind Speed: {weather.wind_kph} kph</p>
-    </div>
-  );
-}
 
   return (
     <div className="app">
       <h1>Weather App</h1>
-      <input type="search" value={city} id="search-id"  placeholder='search a city' onChange={(e)=>{setCity(e.target.value)}}/>
-      <button onClick={handleDisplayWeather}> Search</button>
+      <input type="search"  id="search-id"  placeholder='search a city'/>
+      <button onClick={handleClick}> Search</button>
 
-      {error ? (
-        <p>Error fetching Weather Data: {error.message}</p>
-      ) : city.length === 0 ? (
-        <p>Loading...</p>
-      ) :(<div className='display-tab'>
+      {weather === ''? <WelcomePage /> : error === 404? <ErrorPage /> : <WeatherDisplay />}
+
+      
+    
+
+    </div>
+  )
+}
+// COMPONENT ONE: Weather DISPLAY
+
+function WeatherDisplay(weather) {
+
+  return(
+    <div>
       <h2>{weather.location.name}</h2>
       <img src={weather.current.condition.icon} alt="weather icon" />
       <p>Temperature: {weather.current.temp_c}°C</p>  
       <p>Humidity: {weather.current.humidity}</p>
       <p>Wind Speed: {weather.current.wind_kph} kph</p>
-    </div>)}
-
     </div>
   )
 }
 
+// COMPONENT TWO: Welcomme page
+
+function WelcomePage(){
+
+  return(
+    <h3>Welcome</h3>
+  )
+}
+
+//   COMPONENT THREE: Error page
+
+function ErrorPage(){
+
+  return(
+    <div>
+      <h3>The page you are looking for is not found</h3>
+    </div>
+  )
+}
 
 
 
