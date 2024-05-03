@@ -10,15 +10,15 @@ function App() {
 
   //button event handler
   function handleClick(){
-    fetchData({city})
+    fetchData()
   }
 
   
-    const fetchData = async (cityvalue) => {
+    const fetchData = async () => {
         setCity(cityInput.value)
         // fetching the api data
         try {
-          const response = await fetch(`${import.meta.env.VITE_URL}?key=${import.meta.env.VITE_API_KEY}&q=${cityvalue}&aqi=yes`);
+          const response = await fetch(`${import.meta.env.VITE_URL}?key=${import.meta.env.VITE_API_KEY}&q=${city}&aqi=yes`);
           // parsing it to json
           const data = await response.json();
           // the weather data is then stored within the setweather variable as a JSON Object.
@@ -38,7 +38,8 @@ function App() {
       <input type="search"  id="search-id"  placeholder='search a city'/>
       <button onClick={handleClick}> Search</button>
 
-      {weather === ''? <WelcomePage /> : error === 404? <ErrorPage /> : <WeatherDisplay />}
+
+      {weather === ''? <WelcomePage /> : error === 404? <ErrorPage /> : <WeatherDisplay weather = {weather} />}
 
       
     
